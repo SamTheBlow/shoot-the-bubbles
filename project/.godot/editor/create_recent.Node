@@ -1,0 +1,15 @@
+AnimationPlayer
+Timer
+TextureRect
+Area2D
+RigidBody2D
+ColorRect
+Label
+Control
+MarginContainer
+HBoxContainer
+VBoxContainer
+CollisionShape2D
+Sprite2D
+Marker2D
+StaticBody2D

@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4ltv8uu1eq86"]
+
+[ext_resource type="Script" path="res://bubble.gd" id="1_wmsk6"]
+[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://icon.svg" id="2_iisar"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_15bn2"]
+radius = 24.0
+
+[sub_resource type="Animation" id="Animation_vaa1v"]
+resource_name = "spawn"
+length = 0.75
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.7)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ixvwe"]
+_data = {
+"spawn": SubResource("Animation_vaa1v")
+}
+
+[node name="Bubble" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+gravity_scale = 0.0
+script = ExtResource("1_wmsk6")
+total_health = 30
+score_for_destroying = 600
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_iisar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_15bn2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ixvwe")
+}
+autoplay = "spawn"

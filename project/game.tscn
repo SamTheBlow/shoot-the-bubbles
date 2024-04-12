@@ -1,0 +1,371 @@
+[gd_scene load_steps=15 format=3 uid="uid://b40r2jhn7486y"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_raeqa"]
+[ext_resource type="Script" path="res://player.gd" id="2_cwa2e"]
+[ext_resource type="PackedScene" uid="uid://co3irexayicet" path="res://bubble_normal.tscn" id="2_gxn2t"]
+[ext_resource type="PackedScene" uid="uid://jlvb1b10ilj6" path="res://wave.tscn" id="3_6a446"]
+[ext_resource type="Resource" uid="uid://bajmysofaglu8" path="res://test_list.tres" id="3_f3cke"]
+[ext_resource type="Script" path="res://game_event_list.gd" id="3_gwbjn"]
+[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://icon.svg" id="3_kohx2"]
+[ext_resource type="PackedScene" uid="uid://d4ltv8uu1eq86" path="res://bubble_small.tscn" id="3_to6ai"]
+[ext_resource type="PackedScene" uid="uid://c22moph1lwrwa" path="res://bubble_large.tscn" id="4_64m1j"]
+
+[sub_resource type="Resource" id="Resource_0to0h"]
+script = ExtResource("3_gwbjn")
+events = Array[Resource("res://game_event.gd")]([ExtResource("3_f3cke")])
+delay_before_sec = 1.0
+delay_after_sec = 0.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_aqye2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ua8ut"]
+size = Vector2(128, 1024)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ey77"]
+size = Vector2(1024, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l2e10"]
+radius = 32.0
+
+[node name="Game" type="Node" node_paths=PackedStringArray("world", "player", "spawn_timer", "combo_timer", "bubble_type_timer", "hiscore_label", "score_label", "upgrade_1_label", "upgrade_2_label", "upgrade_3_label", "combo_label", "bar_rect")]
+script = ExtResource("1_raeqa")
+bubble_normal_scene = ExtResource("2_gxn2t")
+bubble_small_scene = ExtResource("3_to6ai")
+bubble_large_scene = ExtResource("4_64m1j")
+world = NodePath("WorldLayer/World")
+player = NodePath("WorldLayer/World/Player")
+spawn_timer = NodePath("SpawnTimer")
+combo_timer = NodePath("ComboTimer")
+bubble_type_timer = NodePath("BubbleTypeTimer")
+hiscore_label = NodePath("UILayer/Control/VBoxContainer/HiScore")
+score_label = NodePath("UILayer/Control/VBoxContainer/Score")
+upgrade_1_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control/Upgrade1Label")
+upgrade_2_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control/Upgrade2Label")
+upgrade_3_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control/Upgrade3Label")
+combo_label = NodePath("UILayer/Control/VBoxContainer/Combo")
+bar_rect = NodePath("UILayer/Control/VBoxContainer/SpeedBar/TextureRect")
+event_list = SubResource("Resource_0to0h")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="BackgroundLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer/Control"]
+self_modulate = Color(0.211765, 1, 0.356863, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_aqye2")
+
+[node name="WorldLayer" type="CanvasLayer" parent="."]
+
+[node name="World" type="Node2D" parent="WorldLayer"]
+
+[node name="Boundaries" type="Node2D" parent="WorldLayer/World"]
+
+[node name="Left" type="StaticBody2D" parent="WorldLayer/World/Boundaries" groups=["left_wall"]]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Boundaries/Left"]
+position = Vector2(0, 324)
+shape = SubResource("RectangleShape2D_ua8ut")
+
+[node name="Right" type="StaticBody2D" parent="WorldLayer/World/Boundaries" groups=["right_wall"]]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Boundaries/Right"]
+position = Vector2(691, 324)
+shape = SubResource("RectangleShape2D_ua8ut")
+
+[node name="Top" type="StaticBody2D" parent="WorldLayer/World/Boundaries" groups=["top_wall"]]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Boundaries/Top"]
+position = Vector2(324, 0)
+shape = SubResource("RectangleShape2D_5ey77")
+
+[node name="Bottom" type="StaticBody2D" parent="WorldLayer/World/Boundaries" groups=["bottom_wall"]]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Boundaries/Bottom"]
+position = Vector2(324, 648)
+shape = SubResource("RectangleShape2D_5ey77")
+
+[node name="Player" type="CharacterBody2D" parent="WorldLayer/World" node_paths=PackedStringArray("wave_spawn_point", "shoot_delay_timer")]
+position = Vector2(256, 500)
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2_cwa2e")
+wave_scene = ExtResource("3_6a446")
+wave_spawn_point = NodePath("WaveSpawnPoint")
+shoot_delay_timer = NodePath("ShootDelay")
+
+[node name="WaveSpawnPoint" type="Marker2D" parent="WorldLayer/World/Player"]
+position = Vector2(0, -40)
+
+[node name="Sprite2D" type="Sprite2D" parent="WorldLayer/World/Player"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_kohx2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Player"]
+shape = SubResource("CircleShape2D_l2e10")
+
+[node name="ShootDelay" type="Timer" parent="WorldLayer/World/Player"]
+wait_time = 0.1
+one_shot = true
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.65
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
+
+[node name="HiScore" type="Label" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_font_sizes/font_size = 32
+text = "HI-SCORE 000000000"
+horizontal_alignment = 3
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_font_sizes/font_size = 32
+text = "SCORE 000000000"
+horizontal_alignment = 3
+vertical_alignment = 1
+
+[node name="Controls" type="Control" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kohx2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Upgrades" type="Control" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/Control/VBoxContainer/Upgrades"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
+layout_mode = 2
+color = Color(0.75, 0.525, 0.375, 1)
+
+[node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kohx2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Upgrade1Label" type="Label" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "Level 1 (0/5)"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Control2" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer"]
+layout_mode = 2
+color = Color(0.376471, 0.623529, 0.74902, 1)
+
+[node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kohx2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Upgrade2Label" type="Label" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "Level 1 (0/5)"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Control3" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
+layout_mode = 2
+color = Color(0.74902, 0.376471, 0.74902, 1)
+
+[node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kohx2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Upgrade3Label" type="Label" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "Level 1 (0/5)"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Combo" type="Label" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_font_sizes/font_size = 24
+text = "COMBO x0"
+vertical_alignment = 2
+
+[node name="SpeedBar" type="Control" parent="UILayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.501961, 0.501961, 0.501961, 1)
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 2
+texture = ExtResource("3_kohx2")
+expand_mode = 1
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[node name="ComboTimer" type="Timer" parent="."]
+wait_time = 2.5
+
+[node name="BubbleTypeTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]
+[connection signal="timeout" from="BubbleTypeTimer" to="." method="_on_bubble_type_timer_timeout"]

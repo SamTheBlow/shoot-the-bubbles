@@ -1,0 +1,13 @@
+res://game.tscn
+res://test_list.tres
+res://main.tscn
+res://main_menu.tscn
+res://wave.tscn
+res://bubble.tscn
+res://game.gd
+res://bubble.gd
+res://wave.gd
+res://player.gd
+res://bubble_small.tscn
+res://bubble_normal.tscn
+res://bubble_large.tscn

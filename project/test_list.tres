@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GameEventList" load_steps=3 format=3 uid="uid://bajmysofaglu8"]
+
+[ext_resource type="Script" path="res://game_event_list.gd" id="1_gaw07"]
+[ext_resource type="Resource" uid="uid://diyyrmt0ufot8" path="res://spawn_enemy_from_left.tres" id="1_h4f1r"]
+
+[resource]
+script = ExtResource("1_gaw07")
+events = Array[Resource("res://game_event.gd")]([ExtResource("1_h4f1r"), ExtResource("1_h4f1r"), ExtResource("1_h4f1r"), ExtResource("1_h4f1r"), ExtResource("1_h4f1r")])
+delay_before_sec = 0.0
+delay_after_sec = 0.0
