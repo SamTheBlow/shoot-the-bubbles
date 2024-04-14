@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://x5kn8ia6cafb"]
+
+[ext_resource type="FontFile" uid="uid://bdwrsl4by3r5x" path="res://assets/not mine/hyperjump/Hyperjump ttf/Hyperjump Regular.ttf" id="1_cgaqw"]
+
+[resource]
+default_font = ExtResource("1_cgaqw")

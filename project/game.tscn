@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b40r2jhn7486y"]
+[gd_scene load_steps=42 format=3 uid="uid://b40r2jhn7486y"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_raeqa"]
 [ext_resource type="Script" path="res://player.gd" id="2_cwa2e"]
@@ -6,9 +6,34 @@
 [ext_resource type="PackedScene" uid="uid://jlvb1b10ilj6" path="res://wave.tscn" id="3_6a446"]
 [ext_resource type="Resource" uid="uid://bajmysofaglu8" path="res://test_list.tres" id="3_f3cke"]
 [ext_resource type="Script" path="res://game_event_list.gd" id="3_gwbjn"]
-[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://icon.svg" id="3_kohx2"]
 [ext_resource type="PackedScene" uid="uid://d4ltv8uu1eq86" path="res://bubble_small.tscn" id="3_to6ai"]
 [ext_resource type="PackedScene" uid="uid://c22moph1lwrwa" path="res://bubble_large.tscn" id="4_64m1j"]
+[ext_resource type="PackedScene" uid="uid://blsa4t2x86w54" path="res://bubble_explosion.tscn" id="5_fg3qp"]
+[ext_resource type="PackedScene" uid="uid://dcar8yyiktgsv" path="res://boss_explosion.tscn" id="6_s3u7b"]
+[ext_resource type="Texture2D" uid="uid://dkhabhgppsu6x" path="res://assets/gameplay_background.png" id="7_m5k70"]
+[ext_resource type="Texture2D" uid="uid://bcfbdbv2n03uj" path="res://assets/not mine/Wooden Crate Texture_0.png" id="8_c185l"]
+[ext_resource type="Texture2D" uid="uid://tcbtgpugbhvl" path="res://assets/not mine/depressionTable.png" id="9_nmsfu"]
+[ext_resource type="Texture2D" uid="uid://c218fs5up2j0j" path="res://assets/game_background.png" id="10_4goe5"]
+[ext_resource type="Theme" uid="uid://x5kn8ia6cafb" path="res://theme.tres" id="10_w14pb"]
+[ext_resource type="Texture2D" uid="uid://qhfdlss5j22t" path="res://assets/gameplay_background_noise.png" id="10_wkdqu"]
+[ext_resource type="Texture2D" uid="uid://b87yf41e80ql7" path="res://assets/controls.png" id="10_y2fsk"]
+[ext_resource type="Texture2D" uid="uid://65xpo1nu16yx" path="res://assets/upgrade1.png" id="11_cbxv5"]
+[ext_resource type="Script" path="res://background_noise.gd" id="11_qv265"]
+[ext_resource type="Texture2D" uid="uid://c1c3ymf8i3c8j" path="res://assets/upgrade2.png" id="11_up40c"]
+[ext_resource type="Script" path="res://bubble_spawner.gd" id="13_3dghd"]
+[ext_resource type="Texture2D" uid="uid://ckpofsnref10n" path="res://assets/time.png" id="13_mcgp1"]
+[ext_resource type="PackedScene" uid="uid://bx0wq0bj4pibu" path="res://bubble_boss.tscn" id="13_v2s61"]
+[ext_resource type="Texture2D" uid="uid://d34vbs0li6rs4" path="res://assets/bar_bg.png" id="14_vdttg"]
+[ext_resource type="Texture2D" uid="uid://biwixdxq8qrmx" path="res://assets/speed_bar.tres" id="15_bqhtx"]
+[ext_resource type="Texture2D" uid="uid://ct7w7e1qgelib" path="res://assets/player.png" id="15_hk0m0"]
+[ext_resource type="Texture2D" uid="uid://b6cagauq8de30" path="res://assets/middle_line.png" id="17_25oxo"]
+[ext_resource type="AudioStream" uid="uid://bem0rm1dwb37m" path="res://assets/audio/boss_again.mp3" id="17_k645k"]
+[ext_resource type="Script" path="res://end_of_level_ui.gd" id="18_vogdg"]
+[ext_resource type="FontFile" uid="uid://bwqbemalj3ig2" path="res://assets/not mine/Kode-Regular.ttf" id="22_hdalu"]
+[ext_resource type="FontFile" uid="uid://dg5mlwrpdc0pr" path="res://assets/not mine/Unitblock-mLAwm.ttf" id="26_xk3hq"]
+[ext_resource type="FontFile" uid="uid://tgu0sdivwuen" path="res://assets/not mine/Hyperjump Bold.ttf" id="26_yuwnw"]
+[ext_resource type="Script" path="res://game_over_ui.gd" id="26_yv1xm"]
+[ext_resource type="Script" path="res://fade.gd" id="30_qh03w"]
 
 [sub_resource type="Resource" id="Resource_0to0h"]
 script = ExtResource("3_gwbjn")
@@ -16,39 +41,149 @@ events = Array[Resource("res://game_event.gd")]([ExtResource("3_f3cke")])
 delay_before_sec = 1.0
 delay_after_sec = 0.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_aqye2"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ua8ut"]
 size = Vector2(128, 1024)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ey77"]
 size = Vector2(1024, 128)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_l2e10"]
-radius = 32.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4g23t"]
+radius = 20.0
+height = 64.0
 
-[node name="Game" type="Node" node_paths=PackedStringArray("world", "player", "spawn_timer", "combo_timer", "bubble_type_timer", "hiscore_label", "score_label", "upgrade_1_label", "upgrade_2_label", "upgrade_3_label", "combo_label", "bar_rect")]
+[sub_resource type="Animation" id="Animation_w6ypd"]
+resource_name = "game_over"
+length = 3.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BGM:pitch_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.01, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverLayer/Control/Tint:color:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GameOverLayer/Control/Label:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BGM:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GameOverLayer/Control/RestartButton:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GameOverLayer/Control/ColorRekt:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+
+[sub_resource type="Animation" id="Animation_mw25b"]
+resource_name = "end_of_level"
+length = 12.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UILayer/Control/EndOfLevelUI:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2.7, 3.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeLayer/ColorRect:color:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(8, 12)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u51p4"]
+_data = {
+"end_of_level": SubResource("Animation_mw25b"),
+"game_over": SubResource("Animation_w6ypd")
+}
+
+[node name="Game" type="Node" node_paths=PackedStringArray("bgm", "world", "player", "spawn_timer", "combo_timer", "bubble_type_timer", "game_over_ui", "end_of_level_ui", "boss_end_timer", "boss_name", "hiscore_label", "score_label", "upgrade_1_label", "upgrade_2_label", "upgrade_3_label", "combo_label", "bar_rect")]
 script = ExtResource("1_raeqa")
 bubble_normal_scene = ExtResource("2_gxn2t")
 bubble_small_scene = ExtResource("3_to6ai")
 bubble_large_scene = ExtResource("4_64m1j")
+bubble_explosion_scene = ExtResource("5_fg3qp")
+boss_scene = ExtResource("13_v2s61")
+boss_explosion_scene = ExtResource("6_s3u7b")
+bgm = NodePath("BGM")
 world = NodePath("WorldLayer/World")
 player = NodePath("WorldLayer/World/Player")
 spawn_timer = NodePath("SpawnTimer")
 combo_timer = NodePath("ComboTimer")
 bubble_type_timer = NodePath("BubbleTypeTimer")
+game_over_ui = NodePath("GameOverLayer/Control")
+end_of_level_ui = NodePath("UILayer/Control/EndOfLevelUI")
+boss_end_timer = NodePath("BossEndTimer")
+boss_name = NodePath("UILayer/Control/BossName")
 hiscore_label = NodePath("UILayer/Control/VBoxContainer/HiScore")
 score_label = NodePath("UILayer/Control/VBoxContainer/Score")
 upgrade_1_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control/Upgrade1Label")
 upgrade_2_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control/Upgrade2Label")
 upgrade_3_label = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control/Upgrade3Label")
 combo_label = NodePath("UILayer/Control/VBoxContainer/Combo")
-bar_rect = NodePath("UILayer/Control/VBoxContainer/SpeedBar/TextureRect")
+bar_rect = NodePath("UILayer/Control/VBoxContainer/SpeedBar/MarginContainer/Control/BarProgress")
 event_list = SubResource("Resource_0to0h")
 
-[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+[node name="GameplayBackgroundLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="BackgroundLayer"]
+[node name="Control" type="Control" parent="GameplayBackgroundLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,15 +191,133 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="BackgroundLayer/Control"]
-self_modulate = Color(0.211765, 1, 0.356863, 1)
+[node name="Control" type="Control" parent="GameplayBackgroundLayer/Control"]
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 627.0
+offset_bottom = 584.0
+
+[node name="Background" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("PlaceholderTexture2D_aqye2")
+texture = ExtResource("7_m5k70")
+expand_mode = 1
+
+[node name="Box1" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 56.0
+offset_top = 464.0
+offset_right = 112.0
+offset_bottom = 520.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box2" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 112.0
+offset_top = 464.0
+offset_right = 168.0
+offset_bottom = 520.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box3" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 168.0
+offset_top = 464.0
+offset_right = 224.0
+offset_bottom = 520.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box4" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 224.0
+offset_top = 464.0
+offset_right = 280.0
+offset_bottom = 520.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box5" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 224.0
+offset_top = 408.0
+offset_right = 280.0
+offset_bottom = 464.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box6" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 168.0
+offset_top = 352.0
+offset_right = 224.0
+offset_bottom = 408.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box7" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 168.0
+offset_top = 408.0
+offset_right = 224.0
+offset_bottom = 464.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box8" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 112.0
+offset_top = 408.0
+offset_right = 168.0
+offset_bottom = 464.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Box9" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 112.0
+offset_top = 352.0
+offset_right = 168.0
+offset_bottom = 408.0
+texture = ExtResource("8_c185l")
+expand_mode = 1
+
+[node name="Table" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+layout_mode = 0
+offset_left = 364.0
+offset_top = 364.0
+offset_right = 556.0
+offset_bottom = 556.0
+texture = ExtResource("9_nmsfu")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="GameplayBackgroundLayer/Control/Control"]
+modulate = Color(1, 1, 1, 0.0392157)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_wkdqu")
+script = ExtResource("11_qv265")
 
 [node name="WorldLayer" type="CanvasLayer" parent="."]
 
@@ -101,7 +354,7 @@ position = Vector2(324, 648)
 shape = SubResource("RectangleShape2D_5ey77")
 
 [node name="Player" type="CharacterBody2D" parent="WorldLayer/World" node_paths=PackedStringArray("wave_spawn_point", "shoot_delay_timer")]
-position = Vector2(256, 500)
+position = Vector2(345.5, 540)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_cwa2e")
@@ -110,18 +363,104 @@ wave_spawn_point = NodePath("WaveSpawnPoint")
 shoot_delay_timer = NodePath("ShootDelay")
 
 [node name="WaveSpawnPoint" type="Marker2D" parent="WorldLayer/World/Player"]
-position = Vector2(0, -40)
+position = Vector2(0, -20)
 
 [node name="Sprite2D" type="Sprite2D" parent="WorldLayer/World/Player"]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_kohx2")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("15_hk0m0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/World/Player"]
-shape = SubResource("CircleShape2D_l2e10")
+shape = SubResource("CapsuleShape2D_4g23t")
 
 [node name="ShootDelay" type="Timer" parent="WorldLayer/World/Player"]
 wait_time = 0.1
 one_shot = true
+
+[node name="Spawner1" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 300)
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 1.0
+time_between_each = 0.7
+number_to_spawn = 700
+bubble_size = 0
+speed = 150.0
+
+[node name="Spawner2" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 300)
+rotation = 3.14159
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 1.0
+time_between_each = 0.7
+number_to_spawn = 7
+bubble_size = 0
+speed = 150.0
+
+[node name="Spawner5" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(200, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 4.0
+time_between_each = 0.5
+bubble_type = 0
+speed = 200.0
+
+[node name="Spawner6" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(491, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 4.0
+time_between_each = 0.5
+bubble_type = 0
+speed = 200.0
+
+[node name="Spawner3" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 250)
+rotation = 0.174533
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 5.0
+time_between_each = 0.7
+number_to_spawn = 7
+bubble_size = 0
+speed = 150.0
+
+[node name="Spawner4" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 250)
+rotation = 2.96706
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 5.0
+time_between_each = 0.7
+number_to_spawn = 7
+bubble_size = 0
+speed = 150.0
+
+[node name="BossLayer" type="CanvasLayer" parent="."]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="BackgroundLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_4goe5")
+expand_mode = 1
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -132,6 +471,61 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="BossName" type="Control" parent="UILayer/Control"]
+visible = false
+anchors_preset = 0
+offset_left = 88.0
+offset_top = 80.0
+offset_right = 216.0
+offset_bottom = 128.0
+
+[node name="Label" type="Label" parent="UILayer/Control/BossName"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("26_yuwnw")
+theme_override_font_sizes/font_size = 24
+text = "Ms. Pop"
+
+[node name="EndOfLevelUI" type="Control" parent="UILayer/Control" node_paths=PackedStringArray("animation_player")]
+layout_mode = 1
+anchor_left = 0.15
+anchor_top = 0.25
+anchor_right = 0.45
+anchor_bottom = 0.425
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("18_vogdg")
+animation_player = NodePath("../../../AnimationPlayer")
+
+[node name="Label" type="Label" parent="UILayer/Control/EndOfLevelUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("26_xk3hq")
+theme_override_font_sizes/font_size = 48
+text = "BONUS SCORE!!"
+horizontal_alignment = 1
+
+[node name="BonusScore" type="Label" parent="UILayer/Control/EndOfLevelUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("26_xk3hq")
+theme_override_font_sizes/font_size = 40
+text = "+ 50 000 000"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UILayer/Control"]
 layout_mode = 1
@@ -145,7 +539,8 @@ anchor_bottom = 0.95
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("22_hdalu")
+theme_override_font_sizes/font_size = 28
 text = "HI-SCORE 000000000"
 horizontal_alignment = 3
 vertical_alignment = 1
@@ -154,7 +549,9 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
-theme_override_font_sizes/font_size = 32
+theme = ExtResource("10_w14pb")
+theme_override_fonts/font = ExtResource("22_hdalu")
+theme_override_font_sizes/font_size = 28
 text = "SCORE 000000000"
 horizontal_alignment = 3
 vertical_alignment = 1
@@ -172,7 +569,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kohx2")
+texture = ExtResource("10_y2fsk")
 expand_mode = 1
 stretch_mode = 5
 
@@ -206,23 +603,25 @@ offset_bottom = -4.0
 
 [node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
 layout_mode = 2
-color = Color(0.75, 0.525, 0.375, 1)
+color = Color(0.74902, 0.52549, 0.376471, 1)
 
 [node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kohx2")
+texture = ExtResource("11_cbxv5")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Upgrade1Label" type="Label" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control"]
+texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -230,7 +629,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("26_yuwnw")
+theme_override_font_sizes/font_size = 14
 text = "Level 1 (0/5)"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -257,13 +657,14 @@ color = Color(0.376471, 0.623529, 0.74902, 1)
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kohx2")
+texture = ExtResource("11_up40c")
 expand_mode = 1
 stretch_mode = 5
 
@@ -275,7 +676,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("26_yuwnw")
+theme_override_font_sizes/font_size = 14
 text = "Level 1 (0/5)"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -296,19 +698,20 @@ offset_bottom = -4.0
 
 [node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
 layout_mode = 2
-color = Color(0.74902, 0.376471, 0.74902, 1)
+color = Color(0.75, 0.375, 0.75, 1)
 
 [node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kohx2")
+texture = ExtResource("13_mcgp1")
 expand_mode = 1
 stretch_mode = 5
 
@@ -320,7 +723,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("26_yuwnw")
+theme_override_font_sizes/font_size = 14
 text = "Level 1 (0/5)"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -329,7 +733,8 @@ vertical_alignment = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("26_xk3hq")
+theme_override_font_sizes/font_size = 32
 text = "COMBO x0"
 vertical_alignment = 2
 
@@ -338,34 +743,170 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+[node name="BarBackground" type="TextureRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.501961, 0.501961, 0.501961, 1)
+texture = ExtResource("14_vdttg")
+expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/Control/VBoxContainer/SpeedBar"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kohx2")
+
+[node name="Control" type="Control" parent="UILayer/Control/VBoxContainer/SpeedBar/MarginContainer"]
+layout_mode = 2
+
+[node name="BarProgress" type="TextureRect" parent="UILayer/Control/VBoxContainer/SpeedBar/MarginContainer/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_bqhtx")
 expand_mode = 1
+
+[node name="MiddleLine" type="TextureRect" parent="UILayer/Control/VBoxContainer/SpeedBar"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_25oxo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GameOverLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Control" type="Control" parent="GameOverLayer" node_paths=PackedStringArray("tint", "color_rekt", "label", "button", "animation_player")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("26_yv1xm")
+tint = NodePath("Tint")
+color_rekt = NodePath("ColorRekt")
+label = NodePath("Label")
+button = NodePath("RestartButton")
+animation_player = NodePath("../../AnimationPlayer")
+
+[node name="Tint" type="ColorRect" parent="GameOverLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0, 0.0666667, 0.5)
+
+[node name="ColorRekt" type="ColorRect" parent="GameOverLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.301961, 0.301961, 0.301961, 1)
+
+[node name="Label" type="Label" parent="GameOverLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("26_xk3hq")
+theme_override_font_sizes/font_size = 96
+text = "Game over..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.55
+anchor_right = 0.6
+anchor_bottom = 0.65
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("26_yuwnw")
+theme_override_font_sizes/font_size = 32
+text = "Try again!!"
+
+[node name="FadeLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="FadeLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("30_qh03w")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
-autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
-wait_time = 2.5
+wait_time = 1.75
 
 [node name="BubbleTypeTimer" type="Timer" parent="."]
 
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("17_k645k")
+pitch_scale = 0.325674
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_u51p4")
+}
+
+[node name="BossStartTimer" type="Timer" parent="."]
+wait_time = 90.0
+one_shot = true
+autostart = true
+
+[node name="BossEndTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="animation_ended" from="UILayer/Control/EndOfLevelUI" to="." method="_on_end_of_level_ui_animation_ended"]
+[connection signal="pressed" from="GameOverLayer/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]
 [connection signal="timeout" from="BubbleTypeTimer" to="." method="_on_bubble_type_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="BossStartTimer" to="." method="_on_boss_start_timer_timeout"]
+[connection signal="timeout" from="BossEndTimer" to="." method="_on_boss_end_timer_timeout"]

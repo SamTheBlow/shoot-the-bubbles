@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://blsa4t2x86w54"]
+
+[ext_resource type="Script" path="res://bubble_explosion.gd" id="1_tosl2"]
+
+[sub_resource type="Curve" id="Curve_5nu07"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+emitting = false
+amount = 16
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.9
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_5nu07")
+script = ExtResource("1_tosl2")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

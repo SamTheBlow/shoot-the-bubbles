@@ -25,6 +25,8 @@ func _start_game() -> void:
 	var game := game_scene.instantiate() as Game
 	game.game_ended.connect(_on_game_ended)
 	game.returned_to_main_menu.connect(_on_returned_to_main_menu)
+	game.restarted.connect(_on_restarted)
+	game.high_score = _save_data.high_score
 	_current_scene = game
 
 
@@ -44,3 +46,7 @@ func _on_game_ended(score: int) -> void:
 
 func _on_returned_to_main_menu() -> void:
 	_enter_main_menu()
+
+
+func _on_restarted() -> void:
+	_start_game()

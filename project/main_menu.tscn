@@ -1,9 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cf8bi21h010ve"]
+[gd_scene load_steps=9 format=3 uid="uid://cf8bi21h010ve"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_ugutf"]
+[ext_resource type="Texture2D" uid="uid://qhfdlss5j22t" path="res://assets/gameplay_background_noise.png" id="2_p6kxy"]
+[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://assets/icon.svg" id="3_fxi8h"]
+[ext_resource type="Texture2D" uid="uid://ct7w7e1qgelib" path="res://assets/player.png" id="4_86jil"]
+[ext_resource type="FontFile" uid="uid://bdwrsl4by3r5x" path="res://assets/not mine/Hyperjump Regular.ttf" id="4_o386w"]
+[ext_resource type="FontFile" uid="uid://tgu0sdivwuen" path="res://assets/not mine/Hyperjump Bold.ttf" id="5_mw25b"]
 
 [sub_resource type="Gradient" id="Gradient_s1v04"]
-colors = PackedColorArray(1, 0.5, 0.5, 1, 1, 0.5, 0.5, 1)
+colors = PackedColorArray(0.4, 0.2, 0.266667, 1, 0.4, 0.2, 0.266667, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_cbgbe"]
 gradient = SubResource("Gradient_s1v04")
@@ -30,6 +35,17 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_cbgbe")
 
+[node name="Noise" type="TextureRect" parent="BackgroundLayer/Control"]
+modulate = Color(1, 1, 1, 0.054902)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_p6kxy")
+expand_mode = 1
+
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="UILayer"]
@@ -40,13 +56,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Title" type="TextureRect" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.05
+anchor_right = 0.9
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_fxi8h")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.25
+anchor_right = 0.9
+anchor_bottom = 0.65
+offset_left = -0.200005
+offset_top = -0.400002
+offset_bottom = -0.199982
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_o386w")
+theme_override_font_sizes/normal_font_size = 32
+text = "Shoot down the little bubbles to raise your SPEED-O-METER!!
+When high enough, the SPEED-O-METER!! makes everything go faster!
+Gotta go fast!!!
+But if it runs out, your career is over (yikes)
+
+Shoot down the colorful bubbles to get stronger,
+and chain combos to raise that SPEED-O-METER!!"
+
 [node name="Button" type="Button" parent="UILayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.4
-anchor_top = 0.5
+anchor_left = 0.1
+anchor_top = 0.7
 anchor_right = 0.6
-anchor_bottom = 0.7
-text = "Play"
+anchor_bottom = 0.9
+theme_override_fonts/font = ExtResource("5_mw25b")
+theme_override_font_sizes/font_size = 64
+text = "Play!!"
+
+[node name="Microphone" type="TextureRect" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.4
+anchor_right = 0.9
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.45204
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(144, 162)
+texture = ExtResource("4_86jil")
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="pressed" from="UILayer/Control/Button" to="." method="_on_button_pressed"]

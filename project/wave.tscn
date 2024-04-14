@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://jlvb1b10ilj6"]
 
 [ext_resource type="Script" path="res://wave.gd" id="1_q5dfk"]
-[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://icon.svg" id="2_ifenq"]
+[ext_resource type="Texture2D" uid="uid://cie2r2ymnivt8" path="res://assets/wave.png" id="2_na345"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0am7x"]
-size = Vector2(32, 8)
+size = Vector2(48, 16)
 
 [node name="Wave" type="Node2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_q5dfk")
@@ -15,10 +15,11 @@ collision_layer = 8
 collision_mask = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-scale = Vector2(0.5, 0.25)
-texture = ExtResource("2_ifenq")
+texture_filter = 1
+texture = ExtResource("2_na345")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_0am7x")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -4,28 +4,38 @@ extends Node
 
 signal game_ended(score: int)
 signal returned_to_main_menu()
+signal restarted()
 
-const COLOR_TYPE_1: Color = Color.ORANGE
-const COLOR_TYPE_2: Color = Color.BLUE
-const COLOR_TYPE_3: Color = Color.MAGENTA
+const COLOR_TYPE_1: Color = Color("ffb380") # orange
+const COLOR_TYPE_2: Color = Color("80d4ff") # blue
+const COLOR_TYPE_3: Color = Color("ff80ff") # pink
+const COLOR_TYPE_4: Color = Color("aaff80") # green
 
 @export var bubble_normal_scene: PackedScene
 @export var bubble_small_scene: PackedScene
 @export var bubble_large_scene: PackedScene
+@export var bubble_explosion_scene: PackedScene
+@export var boss_scene: PackedScene
+@export var boss_explosion_scene: PackedScene
 
+@export var bgm: AudioStreamPlayer
 @export var world: Node2D
 @export var player: Player
 @export var spawn_timer: Timer
 @export var combo_timer: Timer
 @export var bubble_type_timer: Timer
+@export var game_over_ui: GameOverUI
+@export var end_of_level_ui: EndOfLevelUI
+@export var boss_end_timer: Timer
 
+@export var boss_name: Control
 @export var hiscore_label: Label
 @export var score_label: Label
 @export var upgrade_1_label: Label
 @export var upgrade_2_label: Label
 @export var upgrade_3_label: Label
 @export var combo_label: Label
-@export var bar_rect: Control
+@export var bar_rect: TextureRect
 
 @export var event_list: GameEventList
 
@@ -153,9 +163,13 @@ var _bar_level: float = 0.5:
 		
 		_update_bar_visuals()
 		if _bar_level <= 0.5:
-			Engine.time_scale = (_bar_level + 0.5) ** 0.5
+			Engine.time_scale = 1.0 #(_bar_level + 0.5) ** 0.5
 		else:
 			Engine.time_scale = (_bar_level + 0.5) ** 2.0
+		
+		bgm.pitch_scale = roundi(Engine.time_scale * 50.0) * 0.02
+
+var _speed_bar_locked: bool = true
 
 # The time between each bubble spawn
 var _spawn_rate: float = 0.5
@@ -172,24 +186,38 @@ func _ready() -> void:
 	_bar_level = 0.5
 	
 	player.wave_created.connect(_on_wave_created)
-	
-	_start_bubble_type_timer()
-	_start_spawn_timer()
 
 
 func _process(delta: float) -> void:
-	_bar_level -= 0.1 * delta * (_bar_level + 0.5)
+	if not _speed_bar_locked:
+		if _bar_level <= 0.5:
+			_bar_level -= 0.05 * delta * (_bar_level + 0.5)
+		else:
+			_bar_level -= 0.1 * delta * (_bar_level + 0.5)
+
+
+func spawn_bubble(bubble: Bubble) -> void:
+	bubble.died.connect(_on_enemy_died)
+	world.add_child(bubble)
 
 
 func _game_over() -> void:
 	_is_playing = false
 	player.is_controls_locked = true
 	game_ended.emit(_score)
-	# TODO show game over screen
-	print("GAME OVER")
+	game_over_ui.game_over()
+	get_tree().paused = true
+
+
+func _victory() -> void:
+	_is_playing = false
+	game_ended.emit(_score)
+	end_of_level_ui.end_of_level()
+	boss_end_timer.start()
 
 
 func _update_bar_visuals() -> void:
+	(bar_rect.texture as AtlasTexture).region.size.x = 337 * _bar_level
 	bar_rect.anchor_right = _bar_level
 
 
@@ -230,6 +258,15 @@ func _start_spawn_timer() -> void:
 		#return
 
 
+func _on_start_timer_timeout() -> void:
+	_speed_bar_locked = false
+	
+	bgm.play()
+	
+	_start_bubble_type_timer()
+	_start_spawn_timer()
+
+
 func _on_spawn_timer_timeout() -> void:
 	var bubble: Bubble
 	if _spawn_bubble_size == 0:
@@ -237,10 +274,10 @@ func _on_spawn_timer_timeout() -> void:
 	else:
 		bubble = bubble_normal_scene.instantiate() as Bubble
 	bubble.position = Vector2(randf_range(64 + 64, 691 - 64 - 64), randf_range(64 + 64, 648 - 64 - 64 - 128))
-	bubble.type = (randi() % 3) + 1
-	bubble.died.connect(_on_enemy_died)
+	bubble.type = mini((randi() % 15) + 1, 4)
 	
-	world.add_child(bubble)
+	spawn_bubble(bubble)
+	bubble.collision_mask = bubble.collision_mask | 1
 	_start_spawn_timer()
 
 
@@ -259,6 +296,17 @@ func _on_enemy_died(bubble: Bubble) -> void:
 	_combo += 1
 	_bar_level += 0.01 * (_combo ** 0.4)
 	_score += roundi(bubble.score_for_destroying * (_combo ** 1.69))
+	
+	var bubble_explosion := bubble_explosion_scene.instantiate() as CPUParticles2D
+	if bubble.is_boss:
+		bubble_explosion = boss_explosion_scene.instantiate() as CPUParticles2D
+	bubble_explosion.position = bubble.position
+	bubble_explosion.color = bubble.bubble_color()
+	world.add_child(bubble_explosion)
+	
+	if bubble.is_boss:
+		boss_name.hide()
+		_victory()
 
 
 func _on_combo_timer_timeout() -> void:
@@ -267,3 +315,27 @@ func _on_combo_timer_timeout() -> void:
 
 func _on_bubble_type_timer_timeout() -> void:
 	_start_bubble_type_timer()
+
+
+func _on_restart_button_pressed() -> void:
+	get_tree().paused = false
+	restarted.emit()
+
+
+func _on_boss_start_timer_timeout() -> void:
+	boss_name.show()
+	var boss := boss_scene.instantiate() as Bubble
+	boss.position = Vector2(400.0, -50.0)
+	boss.died.connect(_on_enemy_died)
+	$BossLayer.add_child(boss)
+
+
+func _on_boss_end_timer_timeout() -> void:
+	var bonus_score: int = 50_000_000
+	_is_playing = true
+	_score += bonus_score
+	_is_playing = false
+
+
+func _on_end_of_level_ui_animation_ended() -> void:
+	returned_to_main_menu.emit()

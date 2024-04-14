@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4ltv8uu1eq86"]
+[gd_scene load_steps=7 format=3 uid="uid://d4ltv8uu1eq86"]
 
+[ext_resource type="PhysicsMaterial" uid="uid://pgevior4qxvl" path="res://bubble_physics_material.tres" id="1_urx2m"]
 [ext_resource type="Script" path="res://bubble.gd" id="1_wmsk6"]
-[ext_resource type="Texture2D" uid="uid://dkewffcg06uhu" path="res://icon.svg" id="2_iisar"]
+[ext_resource type="Texture2D" uid="uid://cbqr5da20y8cl" path="res://assets/bubble.png" id="2_14x72"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_15bn2"]
 radius = 24.0
@@ -29,14 +30,17 @@ _data = {
 [node name="Bubble" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 3
+mass = 0.1
+physics_material_override = ExtResource("1_urx2m")
 gravity_scale = 0.0
 script = ExtResource("1_wmsk6")
-total_health = 30
-score_for_destroying = 600
+total_health = 50
+score_for_destroying = 500
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("2_iisar")
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_14x72")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_15bn2")

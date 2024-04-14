@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://biwixdxq8qrmx"]
+
+[ext_resource type="Texture2D" uid="uid://dvxv82suffexr" path="res://assets/speed_bar.png" id="1_m23d4"]
+
+[resource]
+atlas = ExtResource("1_m23d4")
+region = Rect2(0, 0, 337, 49)
+filter_clip = true
