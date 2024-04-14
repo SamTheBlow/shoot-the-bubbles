@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddrv4sjo6bcq7"]
+
+[ext_resource type="AudioStream" uid="uid://cg1jobngwp0s4" path="res://assets/audio/shoot_sfx.wav" id="1_eo4ew"]
+[ext_resource type="Script" path="res://sfx_scenes/sfx.gd" id="2_nkdh0"]
+
+[node name="ShootSFX" type="AudioStreamPlayer"]
+stream = ExtResource("1_eo4ew")
+volume_db = -6.666
+pitch_scale = 0.9
+autoplay = true
+script = ExtResource("2_nkdh0")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

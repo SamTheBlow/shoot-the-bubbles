@@ -36,6 +36,7 @@ gravity_scale = 0.0
 script = ExtResource("1_qq3bg")
 total_health = 150
 score_for_destroying = 1500
+xp_gained = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)

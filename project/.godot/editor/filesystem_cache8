@@ -1,39 +1,41 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1713055783
+::res://::1713130062
 background_noise.gd::GDScript::-1::1713034543::0::1::::<>TextureRect<>::
-boss_explosion.tscn::PackedScene::7300732156444569929::1713054087::0::1::::<><>::res://bubble_explosion.gd
+boss_explosion.tscn::PackedScene::7300732156444569929::1713103996::0::1::::<><>::res://bubble_explosion.gd
 boss_movement.gd::GDScript::-1::1713052347::0::1::::<>Node2D<>::
-bubble.gd::GDScript::-1::1713051416::0::1::::Bubble<>RigidBody2D<>::
-bubble_boss.tscn::PackedScene::4053739192839510270::1713054087::0::1::::<><>::uid://bm0w2a83wujw4::::res://assets/pop.png<>res://bubble.gd<>res://health_bar.gd<>res://boss_movement.gd
+bubble.gd::GDScript::-1::1713126753::0::1::::Bubble<>RigidBody2D<>::
+bubble_boss.tscn::PackedScene::4053739192839510270::1713129126::0::1::::<><>::uid://bm0w2a83wujw4::::res://assets/pop.png<>res://bubble.gd<>res://health_bar.gd<>res://boss_movement.gd
+bubble_circle.gd::GDScript::-1::1713122729::0::1::::<>Node2D<>::
 bubble_explosion.gd::GDScript::-1::1713035602::0::1::::<>CPUParticles2D<>::
-bubble_explosion.tscn::PackedScene::3195709592051505945::1713054087::0::1::::<><>::res://bubble_explosion.gd
-bubble_large.tscn::PackedScene::6724432749861345424::1713054087::0::1::::<><>::res://bubble.gd<>uid://pgevior4qxvl::::res://bubble_physics_material.tres<>uid://cbqr5da20y8cl::::res://assets/bubble.png
-bubble_normal.tscn::PackedScene::5813804095527135267::1713054087::0::1::::<><>::res://bubble.gd<>uid://pgevior4qxvl::::res://bubble_physics_material.tres<>uid://cbqr5da20y8cl::::res://assets/bubble.png
+bubble_explosion.tscn::PackedScene::3195709592051505945::1713103996::0::1::::<><>::res://bubble_explosion.gd
+bubble_large.tscn::PackedScene::6724432749861345424::1713129126::0::1::::<><>::res://bubble.gd<>uid://pgevior4qxvl::::res://bubble_physics_material.tres<>uid://cbqr5da20y8cl::::res://assets/bubble.png
+bubble_normal.tscn::PackedScene::5813804095527135267::1713129126::0::1::::<><>::res://bubble.gd<>uid://pgevior4qxvl::::res://bubble_physics_material.tres<>uid://cbqr5da20y8cl::::res://assets/bubble.png
 bubble_physics_material.tres::PhysicsMaterial::1065499733363788193::1713049325::0::1::::<><>::
-bubble_small.tscn::PackedScene::9218639561521738625::1713054087::0::1::::<><>::uid://pgevior4qxvl::::res://bubble_physics_material.tres<>res://bubble.gd<>uid://cbqr5da20y8cl::::res://assets/bubble.png
+bubble_small.tscn::PackedScene::9218639561521738625::1713129126::0::1::::<><>::uid://pgevior4qxvl::::res://bubble_physics_material.tres<>res://bubble.gd<>uid://cbqr5da20y8cl::::res://assets/bubble.png
 bubble_spawner.gd::GDScript::-1::1713032676::0::1::::BubbleSpawner<>Node2D<>::
 end_of_level_ui.gd::GDScript::-1::1713051325::0::1::::EndOfLevelUI<>Control<>::
 event_timer.gd::GDScript::-1::1712931038::0::1::::EventTimer<>Timer<>::
+export_presets.cfg::TextFile::-1::1713129774::0::1::::<><>::
 fade.gd::GDScript::-1::1713051287::0::1::::<>ColorRect<>::
-game.gd::GDScript::-1::1713053726::0::1::::Game<>Node<>::
-game.tscn::PackedScene::4474587482518381186::1713054087::0::1::::<><>::res://game.gd<>res://player.gd<>uid://co3irexayicet::::res://bubble_normal.tscn<>uid://jlvb1b10ilj6::::res://wave.tscn<>uid://bajmysofaglu8::::res://test_list.tres<>res://game_event_list.gd<>uid://d4ltv8uu1eq86::::res://bubble_small.tscn<>uid://c22moph1lwrwa::::res://bubble_large.tscn<>uid://blsa4t2x86w54::::res://bubble_explosion.tscn<>uid://dcar8yyiktgsv::::res://boss_explosion.tscn<>uid://dkhabhgppsu6x::::res://assets/gameplay_background.png<>uid://bcfbdbv2n03uj::::res://assets/not mine/Wooden Crate Texture_0.png<>uid://tcbtgpugbhvl::::res://assets/not mine/depressionTable.png<>uid://c218fs5up2j0j::::res://assets/game_background.png<>uid://x5kn8ia6cafb::::res://theme.tres<>uid://qhfdlss5j22t::::res://assets/gameplay_background_noise.png<>uid://b87yf41e80ql7::::res://assets/controls.png<>uid://65xpo1nu16yx::::res://assets/upgrade1.png<>res://background_noise.gd<>uid://c1c3ymf8i3c8j::::res://assets/upgrade2.png<>res://bubble_spawner.gd<>uid://ckpofsnref10n::::res://assets/time.png<>uid://bx0wq0bj4pibu::::res://bubble_boss.tscn<>uid://d34vbs0li6rs4::::res://assets/bar_bg.png<>uid://biwixdxq8qrmx::::res://assets/speed_bar.tres<>uid://ct7w7e1qgelib::::res://assets/player.png<>uid://b6cagauq8de30::::res://assets/middle_line.png<>uid://bem0rm1dwb37m::::res://assets/audio/boss_again.mp3<>res://end_of_level_ui.gd<>uid://dg5mlwrpdc0pr::::res://assets/not mine/Unitblock-mLAwm.ttf<>res://game_over_ui.gd<>res://fade.gd
+game.gd::GDScript::-1::1713127579::0::1::::Game<>Node<>::
+game.tscn::PackedScene::4474587482518381186::1713129957::0::1::::<><>::res://game.gd<>res://player.gd<>uid://co3irexayicet::::res://bubble_normal.tscn<>uid://jlvb1b10ilj6::::res://wave.tscn<>uid://bajmysofaglu8::::res://test_list.tres<>res://game_event_list.gd<>uid://d4ltv8uu1eq86::::res://bubble_small.tscn<>uid://c22moph1lwrwa::::res://bubble_large.tscn<>uid://blsa4t2x86w54::::res://bubble_explosion.tscn<>uid://dcar8yyiktgsv::::res://boss_explosion.tscn<>uid://dkhabhgppsu6x::::res://assets/gameplay_background.png<>uid://dy0putei5efwa::::res://sfx_scenes/bubble_pop_sfx.tscn<>uid://bcfbdbv2n03uj::::res://assets/not mine/Wooden Crate Texture_0.png<>uid://dk507igag5eoh::::res://sfx_scenes/explosion_sfx.tscn<>uid://tcbtgpugbhvl::::res://assets/not mine/depressionTable.png<>uid://c218fs5up2j0j::::res://assets/game_background.png<>uid://x5kn8ia6cafb::::res://theme.tres<>uid://qhfdlss5j22t::::res://assets/gameplay_background_noise.png<>uid://b87yf41e80ql7::::res://assets/controls.png<>uid://65xpo1nu16yx::::res://assets/upgrade1.png<>res://background_noise.gd<>uid://c1c3ymf8i3c8j::::res://assets/upgrade2.png<>res://bubble_spawner.gd<>uid://ckpofsnref10n::::res://assets/time.png<>uid://bx0wq0bj4pibu::::res://bubble_boss.tscn<>uid://d34vbs0li6rs4::::res://assets/bar_bg.png<>uid://biwixdxq8qrmx::::res://assets/speed_bar.tres<>uid://ct7w7e1qgelib::::res://assets/player.png<>uid://b6cagauq8de30::::res://assets/middle_line.png<>uid://k55o8hylk6em::::res://sfx_scenes/bump_sfx.tscn<>uid://ddrv4sjo6bcq7::::res://sfx_scenes/shoot_sfx.tscn<>res://end_of_level_ui.gd<>uid://bwqbemalj3ig2::::res://assets/not mine/Kode-Regular.ttf<>res://bubble_circle.gd<>uid://dg5mlwrpdc0pr::::res://assets/not mine/Unitblock-mLAwm.ttf<>uid://tgu0sdivwuen::::res://assets/not mine/Hyperjump Bold.ttf<>res://game_over_ui.gd<>res://fade.gd<>uid://bgh10pdynexvk::::res://assets/audio/bgm.wav
 game_event.gd::GDScript::-1::1712931397::0::1::::GameEvent<>Resource<>::
 game_event_list.gd::GDScript::-1::1712930038::0::1::::GameEventList<>GameEvent<>::
 game_event_new_enemy.gd::GDScript::-1::1712929842::0::1::::GameEventNewEnemy<>GameEvent<>::
 game_over_ui.gd::GDScript::-1::1713037734::0::1::::GameOverUI<>Control<>::
 health_bar.gd::GDScript::-1::1713051499::0::1::::HealthBar<>Node2D<>::
 main.gd::GDScript::-1::1713053428::0::1::::<>Node<>::
-main.tscn::PackedScene::1044015684992159321::1713054087::0::1::::<><>::res://main.gd<>uid://cf8bi21h010ve::::res://main_menu.tscn<>uid://b40r2jhn7486y::::res://game.tscn
+main.tscn::PackedScene::1044015684992159321::1713129126::0::1::::<><>::res://main.gd<>uid://cf8bi21h010ve::::res://main_menu.tscn<>uid://b40r2jhn7486y::::res://game.tscn
 main_menu.gd::GDScript::-1::1712922123::0::1::::MainMenu<>Node<>::
-main_menu.tscn::PackedScene::5191986513452218866::1713055783::0::1::::<><>::res://main_menu.gd<>uid://qhfdlss5j22t::::res://assets/gameplay_background_noise.png<>uid://dkewffcg06uhu::::res://assets/icon.svg<>uid://ct7w7e1qgelib::::res://assets/player.png<>uid://bdwrsl4by3r5x::::res://assets/not mine/Hyperjump Regular.ttf<>uid://tgu0sdivwuen::::res://assets/not mine/Hyperjump Bold.ttf
-player.gd::GDScript::-1::1712950511::0::1::::Player<>CharacterBody2D<>::
+main_menu.tscn::PackedScene::5191986513452218866::1713120650::0::1::::<><>::res://main_menu.gd<>uid://qhfdlss5j22t::::res://assets/gameplay_background_noise.png<>uid://j4nuj8vv2lae::::res://assets/title.png<>uid://ct7w7e1qgelib::::res://assets/player.png<>uid://bdwrsl4by3r5x::::res://assets/not mine/Hyperjump Regular.ttf<>uid://tgu0sdivwuen::::res://assets/not mine/Hyperjump Bold.ttf<>uid://ycimmwxwx7w1::::res://assets/audio/menu_bgm.wav
+player.gd::GDScript::-1::1713124869::0::1::::Player<>CharacterBody2D<>::
 save_data.gd::GDScript::-1::1713053412::0::1::::SaveData<>RefCounted<>::
 spawn_enemy_from_left.tres::Resource/Resource::7771806093398086567::1712931857::0::1::::<><>::res://game_event_new_enemy.gd
-test_list.tres::Resource/GameEventList::2405772513721544901::1713014166::0::1::::<><>::res://game_event_list.gd<>uid://diyyrmt0ufot8::::res://spawn_enemy_from_left.tres
+test_list.tres::Resource/GameEventList::2405772513721544901::1713103566::0::1::::<><>::res://game_event_list.gd<>uid://diyyrmt0ufot8::::res://spawn_enemy_from_left.tres
 theme.tres::Theme::1676906867215461675::1713055714::0::1::::<><>::uid://bdwrsl4by3r5x::::res://assets/not mine/hyperjump/Hyperjump ttf/Hyperjump Regular.ttf
-wave.gd::GDScript::-1::1712946306::0::1::::Wave<>Node2D<>::
-wave.tscn::PackedScene::655685959045914701::1713054087::0::1::::<><>::res://wave.gd<>uid://cie2r2ymnivt8::::res://assets/wave.png
-::res://assets/::1713053978
+wave.gd::GDScript::-1::1713126268::0::1::::Wave<>Node2D<>::
+wave.tscn::PackedScene::655685959045914701::1713129127::0::1::::<><>::res://wave.gd<>uid://cie2r2ymnivt8::::res://assets/wave.png
+::res://assets/::1713120411
 bar_bg.png::CompressedTexture2D::9185694455006076125::1713025679::1713026186::1::::<><>::
 bubble.png::CompressedTexture2D::4877146176614564483::1713019897::1713019909::1::::<><>::
 controls.png::CompressedTexture2D::4770180312242913454::1713014575::1713014600::1::::<><>::
@@ -48,62 +50,28 @@ pop.png::CompressedTexture2D::3281680293758212717::1713049137::1713049187::1::::
 speed_bar.png::CompressedTexture2D::8682043890720840871::1713026155::1713026186::1::::<><>::
 speed_bar.tres::AtlasTexture::2993874746460886339::1713026919::0::1::::<><>::uid://dvxv82suffexr::::res://assets/speed_bar.png
 time.png::CompressedTexture2D::5506555403226412559::1713018723::1713018733::1::::<><>::
+title.png::CompressedTexture2D::692392109066064824::1713120390::1713120411::1::::<><>::
 upgrade1.png::CompressedTexture2D::2239209539253261939::1713016480::1713016490::1::::<><>::
 upgrade2.png::CompressedTexture2D::6603623631849729587::1713015528::1713015537::1::::<><>::
 upgrade3.png::CompressedTexture2D::4775777270727129456::1713019277::1713019287::1::::<><>::
 wave.png::CompressedTexture2D::5344280800576474763::1713017505::1713017517::1::::<><>::
-::res://assets/audio/::1713027747
-boss_again.mp3::AudioStreamMP3::2693497545220387716::1685633003::1713027747::1::::<><>::
-::res://assets/not mine/::1713055783
+::res://assets/audio/::1713118042
+bgm.wav::AudioStreamWAV::2823628470051936736::1713116649::1713117035::1::::<><>::
+bubble_pop.wav::AudioStreamWAV::8714296068844906666::1713104858::1713104868::1::::<><>::
+bump.wav::AudioStreamWAV::1000903385661955469::1713102562::1713105472::1::::<><>::
+explosion.wav::AudioStreamWAV::8894574492057571795::1713107150::1713107171::1::::<><>::
+menu_bgm.wav::AudioStreamWAV::1689168833631142014::1713117861::1713118042::1::::<><>::
+shoot_sfx.wav::AudioStreamWAV::5248219777777955901::1713103667::1713103677::1::::<><>::
+::res://assets/not mine/::1713056648
 depressionTable.png::CompressedTexture2D::1337811770936636057::1713030530::1713030539::1::::<><>::
 Hyperjump Bold.ttf::FontFile::1347234230797075877::1590765376::1713055783::1::::<><>::
 Hyperjump Regular.ttf::FontFile::2643468480998639639::1590765654::1713055739::1::::<><>::
 Kode-Regular.ttf::FontFile::3963673778756284375::1681475846::1713055618::1::::<><>::
 Unitblock-mLAwm.ttf::FontFile::7643075875636468819::1707733944::1713029713::1::::<><>::
 Wooden Crate Texture_0.png::CompressedTexture2D::2537186420323333209::1713029687::1713029709::1::::<><>::
-::res://assets/not mine/fervojo/::1713055061
-::res://assets/not mine/fervojo/fervojo/::1681048775
-OFL.txt::TextFile::-1::1681048775::0::1::::<><>::
-::res://assets/not mine/fervojo/fervojo/OTF_ver1.0/::1713055069
-Fervojo-Bold.otf::FontFile::1232080459703095968::1681048534::1713055069::1::::<><>::
-Fervojo-Demi.otf::FontFile::8817789465999852441::1681048534::1713055069::1::::<><>::
-Fervojo-Light.otf::FontFile::8785679912186859526::1681048534::1713055069::1::::<><>::
-Fervojo-Medium.otf::FontFile::2040761257349913330::1681048534::1713055069::1::::<><>::
-Fervojo-Regular.otf::FontFile::4696316608903609396::1681048534::1713055069::1::::<><>::
-Fervojo-Thin.otf::FontFile::7312561788517265612::1681048534::1713055069::1::::<><>::
-::res://assets/not mine/fervojo/fervojo/WOFF_ver1.0/::1713055069
-Fervojo-Bold.woff2::FontFile::9155671539683726345::1681048534::1713055069::1::::<><>::
-Fervojo-Demi.woff2::FontFile::1230565497154578568::1681048534::1713055069::1::::<><>::
-Fervojo-Light.woff2::FontFile::282054048515043229::1681048534::1713055069::1::::<><>::
-Fervojo-Medium.woff2::FontFile::8937162883400261294::1681048534::1713055069::1::::<><>::
-Fervojo-Regular.woff2::FontFile::1550332982308766223::1681048534::1713055069::1::::<><>::
-Fervojo-Thin.woff2::FontFile::6589983633521385451::1681048534::1713055069::1::::<><>::
-::res://assets/not mine/fervojo/__MACOSX/::1713055061
-::res://assets/not mine/fervojo/__MACOSX/fervojo/::1713055061
-::res://assets/not mine/hyperjump/::1713055344
-Hyperjump.png::CompressedTexture2D::7199834426441625385::1590724360::1713055344::1::::<><>::
-Liecense.txt::TextFile::-1::1590336026::0::1::::<><>::
-::res://assets/not mine/hyperjump/Hyperjump otf/::1713055344
-Hyperjump Bold Oblique.otf::FontFile::161194056877172325::1590765268::1713055344::1::::<><>::
-Hyperjump Bold.otf::FontFile::4381045941130499309::1590765382::1713055344::1::::<><>::
-Hyperjump ExtraBold Oblique.otf::FontFile::6522840585336109302::1590765454::1713055344::1::::<><>::
-Hyperjump ExtraBold.otf::FontFile::7667962426988949491::1590766696::1713055344::1::::<><>::
-Hyperjump Hairline Oblique.otf::FontFile::7877061655379562526::1590765496::1713055344::1::::<><>::
-Hyperjump Hairline.otf::FontFile::2129519369116323867::1590765170::1713055344::1::::<><>::
-Hyperjump Light Oblique.otf::FontFile::932001264095508252::1590765560::1713055344::1::::<><>::
-Hyperjump Light.otf::FontFile::330328105247258759::1590765596::1713055344::1::::<><>::
-Hyperjump Regular Oblique.otf::FontFile::955558208822019194::1590765626::1713055344::1::::<><>::
-Hyperjump Regular.otf::FontFile::7554164178048407137::1590765650::1713055344::1::::<><>::
-Hyperjump Thin Oblique.otf::FontFile::403445558274532841::1590765670::1713055344::1::::<><>::
-Hyperjump Thin.otf::FontFile::389519741597088515::1590765676::1713055344::1::::<><>::
-::res://assets/not mine/hyperjump/Hyperjump ttf/::1713055783
-Hyperjump Bold Oblique.ttf::FontFile::2532589541180276805::1590765330::1713055344::1::::<><>::
-Hyperjump ExtraBold Oblique.ttf::FontFile::2767702321361998372::1590765460::1713055344::1::::<><>::
-Hyperjump ExtraBold.ttf::FontFile::3906601340028408724::1590766692::1713055344::1::::<><>::
-Hyperjump Hairline Oblique.ttf::FontFile::3116296170504127562::1590765512::1713055344::1::::<><>::
-Hyperjump Hairline.ttf::FontFile::3084206884787548372::1590765164::1713055344::1::::<><>::
-Hyperjump Light Oblique.ttf::FontFile::5423783706285801360::1590765556::1713055344::1::::<><>::
-Hyperjump Light.ttf::FontFile::6315523516282052530::1590765602::1713055344::1::::<><>::
-Hyperjump Regular Oblique.ttf::FontFile::6488473435542553841::1590765622::1713055344::1::::<><>::
-Hyperjump Thin Oblique.ttf::FontFile::190516939043253023::1590765666::1713055344::1::::<><>::
-Hyperjump Thin.ttf::FontFile::8761665849357076955::1590765680::1713055344::1::::<><>::
+::res://sfx_scenes/::1713107240
+bubble_pop_sfx.tscn::PackedScene::8896351217539777280::1713106688::0::1::::<><>::uid://dwfjghv0o80s1::::res://assets/audio/bubble_pop.wav<>res://sfx_scenes/sfx.gd
+bump_sfx.tscn::PackedScene::765668025089544144::1713106688::0::1::::<><>::uid://oi3y52jt8nq8::::res://assets/audio/bump.wav<>res://sfx_scenes/sfx.gd
+explosion_sfx.tscn::PackedScene::7924657319770368451::1713107240::0::1::::<><>::uid://dyyulv1se8wk6::::res://assets/audio/explosion.wav<>res://sfx_scenes/sfx.gd
+sfx.gd::GDScript::-1::1713106545::0::1::::SFX<>AudioStreamPlayer<>::
+shoot_sfx.tscn::PackedScene::7406250808684861120::1713106688::0::1::::<><>::uid://cg1jobngwp0s4::::res://assets/audio/shoot_sfx.wav<>res://sfx_scenes/sfx.gd

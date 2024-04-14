@@ -34,8 +34,8 @@ mass = 0.1
 physics_material_override = ExtResource("1_urx2m")
 gravity_scale = 0.0
 script = ExtResource("1_wmsk6")
-total_health = 50
-score_for_destroying = 500
+total_health = 70
+score_for_destroying = 700
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)

@@ -5,7 +5,6 @@ extends Node2D
 @export var sprite: Sprite2D
 
 @export var speed: float = 5.0
-@export var damage_dealt: int = 10
 @export var push_strength: float = 30.0
 
 var total_energy: float = 1000.0
@@ -34,8 +33,9 @@ func _destroy() -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Bubble:
-		(body as Bubble).linear_velocity += Vector2.from_angle(global_rotation - PI * 0.5) * (energy / total_energy) * push_strength
-		(body as Bubble).take_damage(floori(damage_dealt * (energy / total_energy)))
+		if not (body as Bubble).is_spawning:
+			(body as Bubble).linear_velocity += Vector2.from_angle(global_rotation - PI * 0.5) * (energy / total_energy) * push_strength
+		(body as Bubble).take_damage((energy / total_energy) ** 2.2)
 		_destroy()
 		return
 	

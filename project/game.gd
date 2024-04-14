@@ -17,6 +17,8 @@ const COLOR_TYPE_4: Color = Color("aaff80") # green
 @export var bubble_explosion_scene: PackedScene
 @export var boss_scene: PackedScene
 @export var boss_explosion_scene: PackedScene
+@export var bubble_pop_sfx_scene: PackedScene
+@export var explosion_sfx_scene: PackedScene
 
 @export var bgm: AudioStreamPlayer
 @export var world: Node2D
@@ -69,6 +71,7 @@ var _upgrade_1_xp: int = 0:
 			if _upgrade_1_xp < xp_needed:
 				break
 			_upgrade_1_level += 1
+			($AnimationPlayer1 as AnimationPlayer).play("level_up_1")
 			_upgrade_1_xp -= xp_needed
 		
 		if _upgrade_1_level == 10:
@@ -94,6 +97,7 @@ var _upgrade_2_xp: int = 0:
 			if _upgrade_2_xp < xp_needed:
 				break
 			_upgrade_2_level += 1
+			($AnimationPlayer2 as AnimationPlayer).play("level_up_2")
 			_upgrade_2_xp -= xp_needed
 		
 		if _upgrade_2_level == 10:
@@ -107,7 +111,6 @@ var _upgrade_2_level: int = 1:
 			return
 		
 		_upgrade_2_level = value
-		player.damage_dealt = 10 + _upgrade_2_level * 2
 
 var _upgrade_3_xp: int = 0:
 	set(value):
@@ -119,6 +122,7 @@ var _upgrade_3_xp: int = 0:
 			if _upgrade_3_xp < xp_needed:
 				break
 			_upgrade_3_level += 1
+			($AnimationPlayer3 as AnimationPlayer).play("level_up_3")
 			_upgrade_3_xp -= xp_needed
 		
 		if _upgrade_3_level == 10:
@@ -167,7 +171,7 @@ var _bar_level: float = 0.5:
 		else:
 			Engine.time_scale = (_bar_level + 0.5) ** 2.0
 		
-		bgm.pitch_scale = roundi(Engine.time_scale * 50.0) * 0.02
+		bgm.pitch_scale = (roundi(Engine.time_scale * 50.0) * 0.02) ** 0.5
 
 var _speed_bar_locked: bool = true
 
@@ -178,12 +182,17 @@ var _spawn_rate: float = 0.5
 var _spawn_bubble_size: int = 1
 
 var _is_playing: bool = true
+var _is_game_over: bool = false
 
 
 func _ready() -> void:
 	# This is to initialize the visuals
 	_combo = 0
 	_bar_level = 0.5
+	
+	(%Glow1 as ColorRect).color.a = 0.0
+	(%Glow2 as ColorRect).color.a = 0.0
+	(%Glow3 as ColorRect).color.a = 0.0
 	
 	player.wave_created.connect(_on_wave_created)
 
@@ -194,15 +203,32 @@ func _process(delta: float) -> void:
 			_bar_level -= 0.05 * delta * (_bar_level + 0.5)
 		else:
 			_bar_level -= 0.1 * delta * (_bar_level + 0.5)
+	
+	## Quickly bring the bar back to neutral state at the end of the game
+	if (not _is_playing) and (not _is_game_over):
+		_is_playing = true
+		_bar_level = lerpf(_bar_level, 0.5, 0.3)
+		_is_playing = false
 
 
 func spawn_bubble(bubble: Bubble) -> void:
+	bubble.game = self
 	bubble.died.connect(_on_enemy_died)
+	bubble.took_damage.connect(_on_enemy_took_damage)
 	world.add_child(bubble)
+
+
+func player_damage() -> int:
+	if _bar_level <= 0.5:
+		return 10 + _upgrade_2_level
+	else:
+		var multiplier: float = (_bar_level + 0.5) * (_upgrade_3_level ** 0.1)
+		return roundi((10 + _upgrade_2_level) * multiplier)
 
 
 func _game_over() -> void:
 	_is_playing = false
+	_is_game_over = true
 	player.is_controls_locked = true
 	game_ended.emit(_score)
 	game_over_ui.game_over()
@@ -261,6 +287,7 @@ func _start_spawn_timer() -> void:
 func _on_start_timer_timeout() -> void:
 	_speed_bar_locked = false
 	
+	bgm.volume_db = 0
 	bgm.play()
 	
 	_start_bubble_type_timer()
@@ -288,11 +315,11 @@ func _on_wave_created(wave: Wave) -> void:
 func _on_enemy_died(bubble: Bubble) -> void:
 	match bubble.type:
 		1:
-			_upgrade_1_xp += 1
+			_upgrade_1_xp += bubble.xp_gained
 		2:
-			_upgrade_2_xp += 1
+			_upgrade_2_xp += bubble.xp_gained
 		3:
-			_upgrade_3_xp += 1
+			_upgrade_3_xp += bubble.xp_gained
 	_combo += 1
 	_bar_level += 0.01 * (_combo ** 0.4)
 	_score += roundi(bubble.score_for_destroying * (_combo ** 1.69))
@@ -303,10 +330,19 @@ func _on_enemy_died(bubble: Bubble) -> void:
 	bubble_explosion.position = bubble.position
 	bubble_explosion.color = bubble.bubble_color()
 	world.add_child(bubble_explosion)
+	add_child(bubble_pop_sfx_scene.instantiate())
 	
 	if bubble.is_boss:
 		boss_name.hide()
+		add_child(explosion_sfx_scene.instantiate())
 		_victory()
+
+
+func _on_enemy_took_damage(bubble: Bubble) -> void:
+	if bubble.is_boss:
+		var bump_sfx := player.bump_sfx_scene.instantiate() as SFX
+		bump_sfx.volume_db = -16.0
+		add_child(bump_sfx)
 
 
 func _on_combo_timer_timeout() -> void:
@@ -326,7 +362,9 @@ func _on_boss_start_timer_timeout() -> void:
 	boss_name.show()
 	var boss := boss_scene.instantiate() as Bubble
 	boss.position = Vector2(400.0, -50.0)
+	boss.game = self
 	boss.died.connect(_on_enemy_died)
+	boss.took_damage.connect(_on_enemy_took_damage)
 	$BossLayer.add_child(boss)
 
 

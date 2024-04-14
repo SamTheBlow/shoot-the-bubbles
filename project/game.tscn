@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://b40r2jhn7486y"]
+[gd_scene load_steps=50 format=3 uid="uid://b40r2jhn7486y"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_raeqa"]
 [ext_resource type="Script" path="res://player.gd" id="2_cwa2e"]
@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://blsa4t2x86w54" path="res://bubble_explosion.tscn" id="5_fg3qp"]
 [ext_resource type="PackedScene" uid="uid://dcar8yyiktgsv" path="res://boss_explosion.tscn" id="6_s3u7b"]
 [ext_resource type="Texture2D" uid="uid://dkhabhgppsu6x" path="res://assets/gameplay_background.png" id="7_m5k70"]
+[ext_resource type="PackedScene" uid="uid://dy0putei5efwa" path="res://sfx_scenes/bubble_pop_sfx.tscn" id="8_5lhxs"]
 [ext_resource type="Texture2D" uid="uid://bcfbdbv2n03uj" path="res://assets/not mine/Wooden Crate Texture_0.png" id="8_c185l"]
+[ext_resource type="PackedScene" uid="uid://dk507igag5eoh" path="res://sfx_scenes/explosion_sfx.tscn" id="9_fxboe"]
 [ext_resource type="Texture2D" uid="uid://tcbtgpugbhvl" path="res://assets/not mine/depressionTable.png" id="9_nmsfu"]
 [ext_resource type="Texture2D" uid="uid://c218fs5up2j0j" path="res://assets/game_background.png" id="10_4goe5"]
 [ext_resource type="Theme" uid="uid://x5kn8ia6cafb" path="res://theme.tres" id="10_w14pb"]
@@ -27,13 +29,16 @@
 [ext_resource type="Texture2D" uid="uid://biwixdxq8qrmx" path="res://assets/speed_bar.tres" id="15_bqhtx"]
 [ext_resource type="Texture2D" uid="uid://ct7w7e1qgelib" path="res://assets/player.png" id="15_hk0m0"]
 [ext_resource type="Texture2D" uid="uid://b6cagauq8de30" path="res://assets/middle_line.png" id="17_25oxo"]
-[ext_resource type="AudioStream" uid="uid://bem0rm1dwb37m" path="res://assets/audio/boss_again.mp3" id="17_k645k"]
+[ext_resource type="PackedScene" uid="uid://k55o8hylk6em" path="res://sfx_scenes/bump_sfx.tscn" id="18_bm50s"]
+[ext_resource type="PackedScene" uid="uid://ddrv4sjo6bcq7" path="res://sfx_scenes/shoot_sfx.tscn" id="18_mffkg"]
 [ext_resource type="Script" path="res://end_of_level_ui.gd" id="18_vogdg"]
 [ext_resource type="FontFile" uid="uid://bwqbemalj3ig2" path="res://assets/not mine/Kode-Regular.ttf" id="22_hdalu"]
+[ext_resource type="Script" path="res://bubble_circle.gd" id="23_lr7v4"]
 [ext_resource type="FontFile" uid="uid://dg5mlwrpdc0pr" path="res://assets/not mine/Unitblock-mLAwm.ttf" id="26_xk3hq"]
 [ext_resource type="FontFile" uid="uid://tgu0sdivwuen" path="res://assets/not mine/Hyperjump Bold.ttf" id="26_yuwnw"]
 [ext_resource type="Script" path="res://game_over_ui.gd" id="26_yv1xm"]
 [ext_resource type="Script" path="res://fade.gd" id="30_qh03w"]
+[ext_resource type="AudioStream" uid="uid://bgh10pdynexvk" path="res://assets/audio/bgm.wav" id="38_4rfsv"]
 
 [sub_resource type="Resource" id="Resource_0to0h"]
 script = ExtResource("3_gwbjn")
@@ -50,6 +55,43 @@ size = Vector2(1024, 128)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4g23t"]
 radius = 20.0
 height = 64.0
+
+[sub_resource type="Animation" id="Animation_mw25b"]
+resource_name = "end_of_level"
+length = 12.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UILayer/Control/EndOfLevelUI:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2.7, 3.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeLayer/ColorRect:color:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(8, 12)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BGM:volume_db")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(8, 12)
+}
 
 [sub_resource type="Animation" id="Animation_w6ypd"]
 resource_name = "game_over"
@@ -122,36 +164,58 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0, 2)
 }
 
-[sub_resource type="Animation" id="Animation_mw25b"]
-resource_name = "end_of_level"
-length = 12.0
+[sub_resource type="Animation" id="Animation_jc1d1"]
+resource_name = "level_up_1"
+length = 1.5
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("UILayer/Control/EndOfLevelUI:modulate:a")
+tracks/0/path = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control2/Glow1:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(2.7, 3.5)
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 1.5)
 }
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("FadeLayer/ColorRect:color:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(8, 12)
+
+[sub_resource type="Animation" id="Animation_qdp7y"]
+resource_name = "level_up_2"
+length = 1.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control2/Glow2:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 1.5)
+}
+
+[sub_resource type="Animation" id="Animation_5ox4m"]
+resource_name = "level_up_3"
+length = 1.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control2/Glow3:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 1.5)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u51p4"]
 _data = {
 "end_of_level": SubResource("Animation_mw25b"),
-"game_over": SubResource("Animation_w6ypd")
+"game_over": SubResource("Animation_w6ypd"),
+"level_up_1": SubResource("Animation_jc1d1"),
+"level_up_2": SubResource("Animation_qdp7y"),
+"level_up_3": SubResource("Animation_5ox4m")
 }
 
 [node name="Game" type="Node" node_paths=PackedStringArray("bgm", "world", "player", "spawn_timer", "combo_timer", "bubble_type_timer", "game_over_ui", "end_of_level_ui", "boss_end_timer", "boss_name", "hiscore_label", "score_label", "upgrade_1_label", "upgrade_2_label", "upgrade_3_label", "combo_label", "bar_rect")]
@@ -162,6 +226,8 @@ bubble_large_scene = ExtResource("4_64m1j")
 bubble_explosion_scene = ExtResource("5_fg3qp")
 boss_scene = ExtResource("13_v2s61")
 boss_explosion_scene = ExtResource("6_s3u7b")
+bubble_pop_sfx_scene = ExtResource("8_5lhxs")
+explosion_sfx_scene = ExtResource("9_fxboe")
 bgm = NodePath("BGM")
 world = NodePath("WorldLayer/World")
 player = NodePath("WorldLayer/World/Player")
@@ -354,11 +420,13 @@ position = Vector2(324, 648)
 shape = SubResource("RectangleShape2D_5ey77")
 
 [node name="Player" type="CharacterBody2D" parent="WorldLayer/World" node_paths=PackedStringArray("wave_spawn_point", "shoot_delay_timer")]
-position = Vector2(345.5, 540)
+position = Vector2(345.5, 560)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_cwa2e")
 wave_scene = ExtResource("3_6a446")
+bump_sfx_scene = ExtResource("18_bm50s")
+shoot_sfx_scene = ExtResource("18_mffkg")
 wave_spawn_point = NodePath("WaveSpawnPoint")
 shoot_delay_timer = NodePath("ShootDelay")
 
@@ -381,8 +449,8 @@ position = Vector2(0, 300)
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
 start_time = 1.0
-time_between_each = 0.7
-number_to_spawn = 700
+time_between_each = 1.2
+number_to_spawn = 7
 bubble_size = 0
 speed = 150.0
 
@@ -392,7 +460,28 @@ rotation = 3.14159
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
 start_time = 1.0
-time_between_each = 0.7
+time_between_each = 1.2
+number_to_spawn = 7
+bubble_size = 0
+speed = 150.0
+
+[node name="Spawner11" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 300)
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 50.0
+time_between_each = 1.2
+number_to_spawn = 7
+bubble_size = 0
+speed = 150.0
+
+[node name="Spawner12" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 300)
+rotation = 3.14159
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 50.0
+time_between_each = 1.2
 number_to_spawn = 7
 bubble_size = 0
 speed = 150.0
@@ -402,42 +491,275 @@ position = Vector2(200, 0)
 rotation = 1.5708
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
-start_time = 4.0
+start_time = 8.0
 time_between_each = 0.5
 bubble_type = 0
-speed = 200.0
+speed = 180.0
 
 [node name="Spawner6" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
 position = Vector2(491, 0)
 rotation = 1.5708
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
-start_time = 4.0
+start_time = 8.0
 time_between_each = 0.5
 bubble_type = 0
-speed = 200.0
+speed = 180.0
+
+[node name="Spawner13" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(200, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 65.0
+time_between_each = 0.5
+bubble_size = 2
+bubble_type = 0
+speed = 180.0
+
+[node name="Spawner14" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(491, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 65.0
+time_between_each = 0.5
+bubble_size = 2
+bubble_type = 0
+speed = 180.0
+
+[node name="Spawner9" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(130, 0)
+rotation = 1.39626
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 25.0
+time_between_each = 0.5
+number_to_spawn = 3
+bubble_type = 0
+speed = 170.0
+
+[node name="Spawner10" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(561, 0)
+rotation = 1.74533
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 25.0
+time_between_each = 0.5
+number_to_spawn = 3
+bubble_type = 0
+speed = 170.0
+
+[node name="Spawner7" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(160, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 17.0
+time_between_each = 0.5
+number_to_spawn = 4
+bubble_size = 0
+bubble_type = 2
+speed = 150.0
+
+[node name="Spawner8" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(531, 0)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 17.0
+time_between_each = 0.5
+number_to_spawn = 4
+bubble_size = 0
+bubble_type = 3
+speed = 150.0
+
+[node name="Spawner15" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(160, 0)
+rotation = 1.39626
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 38.0
+time_between_each = 0.6
+number_to_spawn = 4
+bubble_size = 2
+speed = 190.0
+
+[node name="Spawner16" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(531, 0)
+rotation = 1.74533
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 38.0
+time_between_each = 0.6
+number_to_spawn = 4
+bubble_size = 2
+speed = 190.0
 
 [node name="Spawner3" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
-position = Vector2(0, 250)
-rotation = 0.174533
+position = Vector2(0, 150)
+rotation = 0.261799
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
-start_time = 5.0
-time_between_each = 0.7
+start_time = 58.0
+time_between_each = 1.2
 number_to_spawn = 7
-bubble_size = 0
-speed = 150.0
+speed = 170.0
 
 [node name="Spawner4" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
-position = Vector2(691, 250)
-rotation = 2.96706
+position = Vector2(691, 150)
+rotation = 2.87979
 script = ExtResource("13_3dghd")
 game = NodePath("../../..")
-start_time = 5.0
-time_between_each = 0.7
+start_time = 58.0
+time_between_each = 1.2
 number_to_spawn = 7
-bubble_size = 0
+speed = 170.0
+
+[node name="Spawner20" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 250)
+rotation = 0.261799
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 22.0
+time_between_each = 1.2
+number_to_spawn = 7
+bubble_type = 2
 speed = 150.0
+
+[node name="Spawner21" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 250)
+rotation = 2.87979
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 22.0
+time_between_each = 1.2
+number_to_spawn = 7
+bubble_type = 3
+speed = 150.0
+
+[node name="Spawner22" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 250)
+rotation = 0.261799
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 75.0
+time_between_each = 0.7
+number_to_spawn = 12
+bubble_type = 3
+speed = 170.0
+
+[node name="Spawner23" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 250)
+rotation = 2.87979
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 82.0
+time_between_each = 0.7
+number_to_spawn = 12
+bubble_type = 2
+speed = 170.0
+
+[node name="Spawner25" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 250)
+rotation = 0.261799
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 72.0
+time_between_each = 1.2
+number_to_spawn = 5
+bubble_size = 2
+speed = 220.0
+
+[node name="Spawner26" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 250)
+rotation = 2.87979
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 72.0
+time_between_each = 1.2
+number_to_spawn = 5
+bubble_size = 2
+speed = 220.0
+
+[node name="Spawner17" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 140)
+rotation = 0.349066
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 65.0
+number_to_spawn = 5
+speed = 150.0
+
+[node name="Spawner18" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 140)
+rotation = 2.79253
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 65.0
+number_to_spawn = 5
+speed = 150.0
+
+[node name="Spawner19" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(345.5, -50)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 50.0
+bubble_size = 2
+bubble_type = 1
+speed = 230.0
+
+[node name="Spawner24" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(345.5, -50)
+rotation = 1.5708
+script = ExtResource("13_3dghd")
+game = NodePath("../../..")
+start_time = 80.0
+time_between_each = 1.5
+number_to_spawn = 2
+bubble_size = 2
+bubble_type = 1
+speed = 200.0
+
+[node name="BubbleCircle" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, 220)
+rotation = -0.174533
+script = ExtResource("23_lr7v4")
+game = NodePath("../../..")
+start_time = 15.0
+bubbles_in_circle = 5
+spinning_speed = 2.0
+circle_size = 64.0
+
+[node name="BubbleCircle2" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(691, 220)
+rotation = 3.31613
+script = ExtResource("23_lr7v4")
+game = NodePath("../../..")
+start_time = 30.0
+bubbles_in_circle = 7
+spinning_speed = 2.5
+circle_size = 80.0
+
+[node name="BubbleCircle3" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, -150)
+script = ExtResource("23_lr7v4")
+game = NodePath("../../..")
+start_time = 44.0
+bubbles_in_circle = 20
+spinning_speed = 0.7
+circle_size = 330.0
+
+[node name="BubbleCircle4" type="Node2D" parent="WorldLayer/World" node_paths=PackedStringArray("game")]
+position = Vector2(0, -150)
+script = ExtResource("23_lr7v4")
+game = NodePath("../../..")
+start_time = 77.0
+bubbles_in_circle = 25
+bubble_type = 5
+spinning_speed = 0.5
+circle_size = 330.0
 
 [node name="BossLayer" type="CanvasLayer" parent="."]
 
@@ -601,6 +923,22 @@ offset_top = 4.0
 offset_right = -4.0
 offset_bottom = -4.0
 
+[node name="Control2" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="Glow1" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer/Control2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control/MarginContainer"]
 layout_mode = 2
 color = Color(0.74902, 0.52549, 0.376471, 1)
@@ -649,6 +987,23 @@ offset_top = 4.0
 offset_right = -4.0
 offset_bottom = -4.0
 
+[node name="Control2" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer"]
+layout_mode = 2
+
+[node name="Glow2" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer/Control2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
 [node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control2/MarginContainer"]
 layout_mode = 2
 color = Color(0.376471, 0.623529, 0.74902, 1)
@@ -695,6 +1050,23 @@ offset_left = 4.0
 offset_top = 4.0
 offset_right = -4.0
 offset_bottom = -4.0
+
+[node name="Control2" type="Control" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
+layout_mode = 2
+
+[node name="Glow3" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer/Control2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [node name="ColorRect" type="ColorRect" parent="UILayer/Control/VBoxContainer/Upgrades/HBoxContainer/Control3/MarginContainer"]
 layout_mode = 2
@@ -880,14 +1252,32 @@ wait_time = 1.75
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("17_k645k")
-pitch_scale = 0.325674
+stream = ExtResource("38_4rfsv")
+volume_db = -40.0
 
 [node name="StartTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_u51p4")
+}
+
+[node name="AnimationPlayer1" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_u51p4")
+}
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_u51p4")
+}
+
+[node name="AnimationPlayer3" type="AnimationPlayer" parent="."]
 process_mode = 3
 libraries = {
 "": SubResource("AnimationLibrary_u51p4")

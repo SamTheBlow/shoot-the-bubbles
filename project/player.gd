@@ -5,6 +5,8 @@ extends CharacterBody2D
 signal wave_created(wave: Wave)
 
 @export var wave_scene: PackedScene
+@export var bump_sfx_scene: PackedScene
+@export var shoot_sfx_scene: PackedScene
 
 @export var wave_spawn_point: Node2D
 @export var shoot_delay_timer: Timer
@@ -14,7 +16,10 @@ signal wave_created(wave: Wave)
 @export var gravity: float = 30.0
 
 var number_of_waves: int = 3
-var damage_dealt: int = 10
+
+# For bump sfx
+var _old_vel: Vector2 = Vector2.ZERO
+
 
 # Remember to keep this above at least 0.05
 var shoot_delay_sec: float = 0.10:
@@ -40,6 +45,7 @@ func _process(_delta: float) -> void:
 	global_rotation = angle + PI * 0.5
 	
 	if Input.is_action_pressed("shoot") and shoot_delay_timer.is_stopped():
+		add_child(shoot_sfx_scene.instantiate())
 		var reach: float = minf(0.6 + 0.05 * number_of_waves, 2.0)
 		var spread_range: float = (number_of_waves - 1) * (PI * reach / number_of_waves)
 		for i in number_of_waves:
@@ -62,11 +68,17 @@ func _physics_process(delta: float) -> void:
 	velocity.x = lerpf(velocity.x, 0.0, 0.1)
 	
 	move_and_slide()
+	
+	if _old_vel.length() - velocity.length() >= movement_speed * 0.4:
+		var bump_sfx := bump_sfx_scene.instantiate() as AudioStreamPlayer
+		bump_sfx.volume_db = -22.0 + minf((_old_vel.length() - velocity.length()) * 0.03, 20.0)
+		add_child(bump_sfx)
+	
+	_old_vel = velocity
 
 
 func _new_wave(angle_rad: float) -> Wave:
 	var wave := wave_scene.instantiate() as Wave
-	wave.damage_dealt = damage_dealt
 	wave.global_rotation = angle_rad
 	wave.global_position = wave_spawn_point.global_position
 	return wave

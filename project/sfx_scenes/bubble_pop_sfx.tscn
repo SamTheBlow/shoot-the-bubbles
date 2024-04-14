@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy0putei5efwa"]
+
+[ext_resource type="AudioStream" uid="uid://dwfjghv0o80s1" path="res://assets/audio/bubble_pop.wav" id="1_iacxf"]
+[ext_resource type="Script" path="res://sfx_scenes/sfx.gd" id="2_ejkie"]
+
+[node name="BubblePopSFX" type="AudioStreamPlayer"]
+stream = ExtResource("1_iacxf")
+pitch_scale = 0.6
+autoplay = true
+script = ExtResource("2_ejkie")
+randomize_pitch = true
+
+[connection signal="finished" from="." to="." method="_on_finished"]

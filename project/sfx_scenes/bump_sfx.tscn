@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://k55o8hylk6em"]
+
+[ext_resource type="AudioStream" uid="uid://oi3y52jt8nq8" path="res://assets/audio/bump.wav" id="1_lwhso"]
+[ext_resource type="Script" path="res://sfx_scenes/sfx.gd" id="2_gssro"]
+
+[node name="BumpSFX" type="AudioStreamPlayer"]
+stream = ExtResource("1_lwhso")
+volume_db = -18.0
+autoplay = true
+script = ExtResource("2_gssro")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

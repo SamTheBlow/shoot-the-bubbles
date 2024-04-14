@@ -1,8 +1,9 @@
-Label
+Node2D
+AudioStreamPlayer
 Control
+Label
 TextureRect
 Timer
-Node2D
 CanvasLayer
 ColorRect
 RichTextLabel
@@ -10,5 +11,4 @@ Button
 AnimationPlayer
 CPUParticles2D
 Node
-AudioStreamPlayer
 MarginContainer

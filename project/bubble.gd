@@ -2,12 +2,17 @@ class_name Bubble
 extends RigidBody2D
 
 
+signal took_damage(bubble: Bubble)
 signal died(bubble: Bubble)
 
 @export var total_health: int = 100
 @export var score_for_destroying: int = 1000
+@export var xp_gained: int = 1
 
 @export var is_boss: bool = false
+
+var game: Game
+
 
 var type: int = 0:
 	set(value):
@@ -23,6 +28,8 @@ var type: int = 0:
 			4:
 				col = Game.COLOR_TYPE_4
 		($Sprite2D as Sprite2D).modulate = col
+
+var is_spawning: bool = true
 
 var _health: int = 0:
 	set(value):
@@ -46,15 +53,15 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if (not (collision_mask & 1)) and position.x > 128 + 16 and position.x < 691 - 128 - 16 and position.y > 128 + 16 and position.y < 648 - 128 - 16:
+	if position.x > 128 and position.x < 691 - 128 and position.y > 128 and position.y < 648 - 128:
 		collision_mask = collision_mask | 1
+		is_spawning = false
 
 
 func bubble_color() -> Color:
 	return ($Sprite2D as Sprite2D).modulate
 
 
-func take_damage(damage: int) -> void:
-	_health -= damage
-	# TODO play sfx
-	# TODO update visuals, red tint maybe
+func take_damage(multiplier: float) -> void:
+	_health -= roundi(game.player_damage() * multiplier)
+	took_damage.emit(self)

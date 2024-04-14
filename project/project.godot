@@ -10,10 +10,15 @@ config_version=5
 
 [application]
 
-config/name="mini-jame-gam-29"
+config/name="Studio Story ~ Shoot the Bubbles"
+config/description="Short shoot-em-up video game. Shoot down the bubbles and reach the end!"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://assets/icon256.png"
+
+[display]
+
+window/stretch/mode="viewport"
 
 [input]
 
